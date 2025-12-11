@@ -16,6 +16,7 @@ pub fn solve() -> Result<(), anyhow::Error> {
         .collect::<Result<Vec<_>, _>>()?;
 
     part1(&steps)?;
+    part2(&steps)?;
 
     Ok(())
 }
@@ -37,6 +38,31 @@ fn part1(steps: &[(u8, i32)]) -> Result<(), anyhow::Error> {
     }
 
     println!("day 1 part 1: {password}");
+
+    Ok(())
+}
+
+fn part2(steps: &[(u8, i32)]) -> Result<(), anyhow::Error> {
+    let mut password = 0;
+    let mut dial = 50;
+
+    for &(dir, num) in steps {
+        let sign = match dir {
+            b'L' => 1,
+            b'R' => -1,
+            _ => unreachable!(),
+        };
+
+        for _ in 0..num {
+            dial += sign;
+            dial %= 100;
+            if dial == 0 {
+                password += 1;
+            }
+        }
+    }
+
+    println!("day 1 part 2: {password}");
 
     Ok(())
 }
